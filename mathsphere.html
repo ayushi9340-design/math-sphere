@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Math Sphere | 1:1 Online Tutoring</title>
+
+  <style>
+    :root {
+      --blue: #1f6fff;
+      --blue-dark: #0b3f9c;
+      --cyan: #18c5d9;
+      --orange: #ff9f1c;
+      --green: #16a34a;
+      --dark: #0f172a;
+      --muted: #64748b;
+      --light: #f8fbff;
+      --white: #ffffff;
+      --border: #e2e8f0;
+      --shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: auto;
+    }
+
+    .btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 14px 24px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: white;
+      box-shadow: 0 16px 30px rgba(31, 111, 255, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 38px rgba(31, 111, 255, 0.32);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--blue);
+      border: 1px solid #cfe0ff;
+    }
+
+    .btn-secondary:hover {
+      background: #eef6ff;
+    }
+
+    .section {
+      padding: 90px 0;
+    }
+
+    .section-light {
+      background: var(--light);
+    }
+
+    .kicker {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+      font-weight: 950;
+      margin-bottom: 18px;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      max-width: 720px;
+      font-size: 18px;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .center .section-subtitle {
+      margin: 0 auto;
+    }
+
+    /* Header */
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 950;
+    }
+
+    .logo-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      box-shadow: 0 12px 24px rgba(31, 111, 255, 0.24);
+    }
+
+    .logo small {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: -3px;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      font-size: 15px;
+      font-weight: 800;
+      color: #475569;
+    }
+
+    .nav-links a:hover,
+    .dropdown-toggle:hover {
+      color: var(--blue);
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-toggle {
+      background: transparent;
+      border: none;
+      font-size: 15px;
+      font-weight: 800;
+      color: #475569;
+      cursor: pointer;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 38px;
+      left: 0;
+      width: 260px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 10px;
+      box-shadow: var(--shadow);
+      display: none;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 14px;
+      color: #475569;
+      font-weight: 800;
+    }
+
+    .dropdown-menu a:hover {
+      background: #eff6ff;
+      color: var(--blue);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .language-toggle,
+    .login-btn {
+      border: 1px solid var(--border);
+      background: white;
+      padding: 11px 15px;
+      border-radius: 999px;
+      font-weight: 800;
+      color: #475569;
+      cursor: pointer;
+    }
+
+    .menu-btn {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    /* Hero */
+
+    .hero {
+      background:
+        radial-gradient(circle at top left, #dff6ff, transparent 32%),
+        linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      padding: 80px 0 90px;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 58px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: white;
+      border: 1px solid #dbeafe;
+      color: var(--blue);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 900;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 5vw, 68px);
+      line-height: 1.02;
+      letter-spacing: -2px;
+      font-weight: 950;
+      margin-bottom: 24px;
+    }
+
+    .hero-points {
+      display: grid;
+      gap: 10px;
+      font-size: 19px;
+      color: #475569;
+      font-weight: 750;
+      margin-bottom: 34px;
+    }
+
+    .hero-points p::before {
+      content: "✓";
+      color: var(--green);
+      font-weight: 950;
+      margin-right: 8px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .trust-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 14px 17px;
+      box-shadow: var(--shadow);
+    }
+
+    .trust-logo {
+      background: #00b67a;
+      color: white;
+      font-weight: 950;
+      font-size: 13px;
+      padding: 6px 9px;
+      border-radius: 8px;
+    }
+
+    .stars {
+      color: #f59e0b;
+      font-weight: 950;
+      letter-spacing: 1px;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-image-card {
+      background: white;
+      border: 1px solid white;
+      padding: 16px;
+      border-radius: 42px;
+      box-shadow: 0 35px 75px rgba(31, 111, 255, 0.14);
+      transform: rotate(1deg);
+    }
+
+    .student-art {
+      min-height: 500px;
+      border-radius: 34px;
+      background: linear-gradient(145deg, #dbeafe, #fef3c7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .student-face {
+      width: 150px;
+      height: 150px;
+      background: #f7c98b;
+      border-radius: 50%;
+      position: absolute;
+      top: 145px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    }
+
+    .student-hair {
+      width: 180px;
+      height: 90px;
+      background: #111827;
+      position: absolute;
+      top: 115px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 90px 90px 36px 36px;
+    }
+
+    .student-body {
+      width: 320px;
+      height: 270px;
+      background: linear-gradient(180deg, var(--blue), #60a5fa);
+      position: absolute;
+      left: 50%;
+      bottom: -60px;
+      transform: translateX(-50%);
+      border-radius: 160px 160px 0 0;
+    }
+
+    .laptop {
+      position: absolute;
+      left: 50%;
+      bottom: 35px;
+      transform: translateX(-50%);
+      width: 290px;
+      height: 115px;
+      background: #0f172a;
+      border-radius: 26px;
+      box-shadow: 0 18px 30px rgba(0,0,0,0.2);
+      color: white;
+      padding: 18px;
+    }
+
+    .laptop span {
+      display: block;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.25);
+      margin-bottom: 10px;
+    }
+
+    .laptop span:nth-child(2) {
+      width: 70%;
+      background: #67e8f9;
+    }
+
+    .floating-card {
+      position: absolute;
+      background: white;
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      z-index: 3;
+    }
+
+    .floating-card.one {
+      left: -20px;
+      top: 60px;
+    }
+
+    .floating-card.two {
+      right: -18px;
+      bottom: 90px;
+    }
+
+    .floating-card strong {
+      display: block;
+      font-size: 25px;
+      color: var(--blue);
+      line-height: 1;
+    }
+
+    .floating-card small {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    /* Marquee */
+
+    .marquee-wrap {
+      padding: 42px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: white;
+    }
+
+    .marquee-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 950;
+      margin-bottom: 28px;
+    }
+
+    .marquee-window {
+      overflow: hidden;
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+
+    .marquee-track {
+      width: max-content;
+      display: flex;
+      gap: 16px;
+      animation: marquee 26s linear infinite;
+    }
+
+    .school-logo {
+      width: 220px;
+      height: 78px;
+      display: grid;
+      place-items: center;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      color: #64748b;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      filter: grayscale(1);
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* Cards */
+
+    .three-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 44px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.05);
+      transition: 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .step-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: #eff6ff;
+      color: var(--blue);
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      font-weight: 950;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* Subjects */
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 50px;
+      align-items: start;
+    }
+
+    .pill-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .pill {
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 999px;
+      padding: 13px 18px;
+      font-weight: 900;
+      color: #475569;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .pill:hover {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: var(--blue);
+      transform: translateY(-2px);
+    }
+
+    .mini-boxes {
+      margin-top: 36px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .mini-box {
+      background: #f8fafc;
+      border-radius: 24px;
+      padding: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .mini-box h3 {
+      font-size: 22px;
+      margin-bottom: 16px;
+      font-weight: 950;
+    }
+
+    .tag {
+      display: inline-block;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 12px;
+      margin: 5px;
+      font-size: 13px;
+      font-weight: 850;
+      color: #475569;
+    }
+
+    /* Reviews */
+
+    .reviews {
+      background: #0f172a;
+      color: white;
+    }
+
+    .reviews .section-title,
+    .reviews .section-subtitle {
+      color: white;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .rating-card {
+      background: white;
+      color: var(--dark);
+      border-radius: 30px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-top: 24px;
+    }
+
+    .rating-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .rating-number {
+      font-size: 58px;
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .ai-summary {
+      background: #eff6ff;
+      border-radius: 20px;
+      padding: 18px;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    .review-slider {
+      display: flex;
+      overflow-x: auto;
+      gap: 18px;
+      padding-bottom: 14px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .review-card {
+      min-width: 310px;
+      background: white;
+      color: var(--dark);
+      border-radius: 28px;
+      padding: 24px;
+      scroll-snap-align: start;
+    }
+
+    .review-card h3 {
+      font-weight: 950;
+      margin-bottom: 2px;
+    }
+
+    .review-card small {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .review-card p {
+      margin-top: 14px;
+      color: #475569;
+      font-weight: 650;
+    }
+
+    .read-more {
+      margin-top: 12px;
+      border: none;
+      background: none;
+      color: var(--blue);
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    /* Success carousel */
+
+    .carousel-box {
+      margin-top: 38px;
+      background: linear-gradient(135deg, #eff6ff, #ecfeff);
+      border-radius: 36px;
+      padding: 34px;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .report-card {
+      background: white;
+      border-radius: 30px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .success-stat {
+      color: var(--blue);
+      font-size: 50px;
+      font-weight: 950;
+      margin: 16px 0;
+    }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+      margin: 12px 0 4px;
+    }
+
+    .bar {
+      height: 11px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      background: var(--blue);
+      border-radius: 999px;
+    }
+
+    .quote {
+      font-size: clamp(28px, 3.5vw, 46px);
+      line-height: 1.12;
+      letter-spacing: -1px;
+      font-weight: 950;
+    }
+
+    .carousel-controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .circle-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: none;
+      background: white;
+      color: var(--blue);
+      font-size: 24px;
+      font-weight: 950;
+      cursor: pointer;
+      box-shadow: 0 10px 18px rgba(15, 23, 42, 0.06);
+    }
+
+    /* Tutors */
+
+    .tutor-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+      margin-top: 44px;
+    }
+
+    .tutor-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 26px;
+      text-align: center;
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.05);
+    }
+
+    .avatar {
+      width: 112px;
+      height: 112px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 32px;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+    }
+
+    .tutor-card h3 {
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .tutor-card .role {
+      color: var(--blue);
+      font-weight: 900;
+      margin: 4px 0;
+    }
+
+    .tutor-card small {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    /* Comparison */
+
+    .comparison {
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-top: 42px;
+    }
+
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .comparison-cell {
+      padding: 22px;
+      text-align: center;
+      font-weight: 900;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comparison-head .comparison-cell {
+      font-size: 22px;
+      background: #f8fafc;
+    }
+
+    .comparison-head .mentor {
+      background: var(--blue);
+      color: white;
+    }
+
+    .mentor {
+      background: #eff6ff;
+      color: var(--blue-dark);
+      font-weight: 950;
+    }
+
+    /* Lead Form */
+
+    .lead-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .form-card {
+      background: white;
+      border-radius: 36px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    .input {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      border-radius: 18px;
+      padding: 15px 16px;
+      color: var(--dark);
+      font-weight: 700;
+      outline: none;
+    }
+
+    .input:focus {
+      border-color: #60a5fa;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.16);
+    }
+
+    .form-message {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      font-weight: 800;
+      display: none;
+    }
+
+    .form-message.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .form-message.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* FAQ */
+
+    .faq-wrap {
+      max-width: 860px;
+      margin: 42px auto 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      font-size: 17px;
+      font-weight: 950;
+      color: var(--dark);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 24px 22px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    /* Extra pages */
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-top: 36px;
+    }
+
+    .page-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: 26px;
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.04);
+    }
+
+    .page-card h3 {
+      font-weight: 950;
+      margin-bottom: 8px;
+    }
+
+    .page-card p {
+      color: var(--muted);
+      font-weight: 650;
+      margin-bottom: 16px;
+    }
+
+    /* Footer */
+
+    .footer {
+      background: #0f172a;
+      color: white;
+      padding: 70px 0 28px;
+      position: relative;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr 0.9fr 0.9fr;
+      gap: 34px;
+    }
+
+    .footer .logo small {
+      color: #94a3b8;
+    }
+
+    .footer h3 {
+      font-size: 17px;
+      font-weight: 950;
+      margin-bottom: 18px;
+    }
+
+    .footer a,
+    .footer p {
+      display: block;
+      color: #94a3b8;
+      font-weight: 650;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .footer a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 44px;
+      padding-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    /* Chat */
+
+    .chat-widget {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 1100;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: none;
+      background: #16a34a;
+      color: white;
+      border-radius: 999px;
+      padding: 12px 16px;
+      box-shadow: 0 18px 40px rgba(22, 163, 74, 0.28);
+      cursor: pointer;
+      font-weight: 950;
+    }
+
+    .chat-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: white;
+      color: #16a34a;
+      display: grid;
+      place-items: center;
+      font-weight: 950;
+    }
+
+    .chat-panel {
+      position: fixed;
+      right: 22px;
+      bottom: 92px;
+      width: min(360px, calc(100vw - 32px));
+      background: white;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      z-index: 1200;
+      display: none;
+    }
+
+    .chat-panel.active {
+      display: block;
+    }
+
+    .chat-head {
+      background: var(--blue);
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-body {
+      padding: 20px;
+    }
+
+    .chat-bubble {
+      background: #f1f5f9;
+      padding: 14px;
+      border-radius: 18px;
+      color: #334155;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .close-chat {
+      border: none;
+      background: transparent;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    /* Mobile */
+
+    @media (max-width: 980px) {
+      .nav-links,
+      .nav-actions {
+        display: none;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .nav.mobile-open {
+        align-items: flex-start;
+      }
+
+      .mobile-menu {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 78px;
+        background: white;
+        border-bottom: 1px solid var(--border);
+        padding: 18px;
+      }
+
+      .mobile-menu.active {
+        display: grid;
+        gap: 12px;
+      }
+
+      .mobile-menu a,
+      .mobile-menu button {
+        padding: 14px;
+        border-radius: 16px;
+        background: #f8fafc;
+        border: none;
+        text-align: left;
+        font-weight: 900;
+        color: #475569;
+      }
+
+      .hero-grid,
+      .split-grid,
+      .review-grid,
+      .carousel-box,
+      .lead-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .three-grid,
+      .tutor-grid,
+      .page-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .floating-card.two {
+        right: 8px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .section {
+        padding: 70px 0;
+      }
+
+      .hero {
+        padding: 56px 0 70px;
+      }
+
+      .three-grid,
+      .tutor-grid,
+      .page-grid,
+      .mini-boxes,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid .full {
+        grid-column: auto;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .student-art {
+        min-height: 420px;
+      }
+
+      .floating-card {
+        display: none;
+      }
+
+      .comparison-cell {
+        padding: 16px 10px;
+        font-size: 14px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+      }
+
+      .chat-widget span:last-child {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav">
+      <a href="#home" class="logo">
+        <div class="logo-mark">M</div>
+        <div>
+          Math Sphere
+          <small>1:1 Online Tutoring</small>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#tutors">Our Tutors</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#blogs">Blogs</a>
+
+        <div class="dropdown">
+          <button class="dropdown-toggle">Programs ▾</button>
+          <div class="dropdown-menu">
+            <a href="#program-math">Math Tutoring</a>
+            <a href="#program-science">Science</a>
+            <a href="#program-ela">ELA</a>
+            <a href="#program-sat">SAT</a>
+            <a href="#program-public-speaking">Public Speaking</a>
+            <a href="#program-catch-up">Math Catch-Up</a>
+            <a href="#program-eraya">ERAYA (IBDP)</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="language-toggle" id="languageToggle">English / العربية</button>
+        <button class="login-btn">Login</button>
+        <a href="#lead-form" class="btn btn-primary">Book a Free Trial</a>
+      </div>
+
+      <button class="menu-btn" id="menuBtn">☰</button>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#tutors">Our Tutors</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#blogs">Blogs</a>
+      <a href="#program-math">Math Tutoring</a>
+      <a href="#program-science">Science</a>
+      <a href="#program-ela">ELA</a>
+      <a href="#program-sat">SAT</a>
+      <a href="#lead-form">Book a Free Trial</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="hero-badge">
+            <span class="dot"></span>
+            Trusted by global school families
+          </div>
+
+          <h1>1:1 Tutoring That Helps Your Child Excel at School</h1>
+
+          <div class="hero-points">
+            <p>Math, Science & ELA for Grades 4 - 12</p>
+            <p>55 Minute Sessions Aligned to Their School Curriculum</p>
+            <p>Flexible Scheduling to Fit Busy Family Life</p>
+          </div>
+
+          <div class="hero-actions">
+            <a href="#lead-form" class="btn btn-primary">Book a free trial</a>
+            <button class="btn btn-secondary open-chat">Chat with our advisor</button>
+          </div>
+
+          <div class="trust-card">
+            <div class="trust-logo">TrustPilot</div>
+            <div>
+              <strong>Excellent</strong>
+              <div class="stars">★★★★★</div>
+              <small>TrustPilot rating</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="floating-card one">
+            <strong>+18%</strong>
+            <small>Math quiz progress</small>
+          </div>
+
+          <div class="floating-card two">
+            <strong>Live</strong>
+            <small>1:1 mentor session</small>
+          </div>
+
+          <div class="hero-image-card">
+            <div class="student-art">
+              <div class="student-hair"></div>
+              <div class="student-face"></div>
+              <div class="student-body"></div>
+              <div class="laptop">
+                <span></span>
+                <span></span>
+                <small>Mentor feedback: Great work on ratios. Next, word problems practice.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- School Marquee -->
+  <section class="marquee-wrap">
+    <div class="container">
+      <h2 class="marquee-title">We tutor students from Top Schools</h2>
+      <div class="marquee-window">
+        <div class="marquee-track">
+          <div class="school-logo">GEMS Founders</div>
+          <div class="school-logo">Raffles World</div>
+          <div class="school-logo">Raha International</div>
+          <div class="school-logo">Kings' School</div>
+          <div class="school-logo">Nord Anglia</div>
+          <div class="school-logo">JESS Dubai</div>
+          <div class="school-logo">Repton</div>
+          <div class="school-logo">Sunmarke</div>
+
+          <div class="school-logo">GEMS Founders</div>
+          <div class="school-logo">Raffles World</div>
+          <div class="school-logo">Raha International</div>
+          <div class="school-logo">Kings' School</div>
+          <div class="school-logo">Nord Anglia</div>
+          <div class="school-logo">JESS Dubai</div>
+          <div class="school-logo">Repton</div>
+          <div class="school-logo">Sunmarke</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section section-light" id="how-it-works">
+    <div class="container center">
+      <div class="kicker">How it works</div>
+      <h2 class="section-title">Our 3-Step Formula for A+ Success!</h2>
+      <p class="section-subtitle">
+        Math Sphere combines AI-powered planning, expert 1:1 teaching, and clear parent updates to help students grow with confidence.
+      </p>
+
+      <div class="three-grid">
+        <div class="card">
+          <div class="step-icon">✦</div>
+          <h3>Personalized AI Learning Plan</h3>
+          <p>We identify gaps using smart diagnostics and build a personalized learning path around your child’s curriculum.</p>
+        </div>
+
+        <div class="card">
+          <div class="step-icon">▶</div>
+          <h3>High-Impact 1:1 Tutoring</h3>
+          <p>Your child attends 2–3 live sessions per week with expert mentors focused on clarity, practice, and confidence.</p>
+        </div>
+
+        <div class="card">
+          <div class="step-icon">▣</div>
+          <h3>Stay Informed, Stay Involved</h3>
+          <p>Parents receive weekly progress updates, performance insights, and next-step recommendations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subjects and Curriculum -->
+  <section class="section">
+    <div class="container split-grid">
+      <div>
+        <div class="kicker">Subjects & curriculum</div>
+        <h2 class="section-title">Get help with all your school subjects</h2>
+        <p class="section-subtitle">
+          Math Sphere supports major subjects, school systems, and grade bands with highly personalized tutoring support.
+        </p>
+      </div>
+
+      <div>
+        <div class="pill-wrap">
+          <button class="pill">🧬 Biology</button>
+          <button class="pill">⚛️ Physics</button>
+          <button class="pill">📚 English</button>
+          <button class="pill">➗ Math</button>
+          <button class="pill">🧪 Chemistry</button>
+          <button class="pill">💻 Coding</button>
+          <button class="pill">🎯 SAT</button>
+          <button class="pill">ع Arabic</button>
+          <button class="pill">🎙️ Public Speaking</button>
+        </div>
+
+        <div class="mini-boxes">
+          <div class="mini-box">
+            <h3>For all school systems</h3>
+            <span class="tag">Indian</span>
+            <span class="tag">British</span>
+            <span class="tag">IB</span>
+            <span class="tag">American</span>
+            <span class="tag">Cambridge</span>
+            <span class="tag">CBSE</span>
+            <span class="tag">ICSE</span>
+          </div>
+
+          <div class="mini-box">
+            <h3>In all grades</h3>
+            <span class="tag">Primary 1-5</span>
+            <span class="tag">Middle 6-8</span>
+            <span class="tag">High 9-12</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Program Pages -->
+  <section class="section section-light" id="program-math">
+    <div class="container center">
+      <div class="kicker">Programs</div>
+      <h2 class="section-title">Math Tutoring</h2>
+      <p class="section-subtitle">
+        Build strong fundamentals in arithmetic, algebra, geometry, word problems, reasoning, and exam preparation through 1:1 mentoring.
+      </p>
+
+      <div class="page-grid">
+        <div class="page-card">
+          <h3>Concept Clarity</h3>
+          <p>Personalized explanations, visual teaching, and step-by-step practice.</p>
+          <a href="#lead-form" class="btn btn-secondary">Start Math Support</a>
+        </div>
+
+        <div class="page-card">
+          <h3>School Alignment</h3>
+          <p>Sessions are aligned with the student’s current school curriculum and exam pattern.</p>
+          <a href="#lead-form" class="btn btn-secondary">Book Trial</a>
+        </div>
+
+        <div class="page-card">
+          <h3>Confidence Building</h3>
+          <p>Regular practice helps students reduce math anxiety and improve test performance.</p>
+          <a href="#lead-form" class="btn btn-secondary">Get Help</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="program-science">
+    <div class="container center">
+      <div class="kicker">Science</div>
+      <h2 class="section-title">Science Tutoring for School Success</h2>
+      <p class="section-subtitle">
+        Support for Biology, Physics, and Chemistry with clear explanations, diagrams, practice questions, and exam preparation.
+      </p>
+
+      <div class="three-grid">
+        <div class="card"><h3>Physics</h3><p>Motion, force, energy, electricity, waves, and problem-solving practice.</p></div>
+        <div class="card"><h3>Chemistry</h3><p>Atoms, bonding, reactions, equations, acids, bases, and lab-based concepts.</p></div>
+        <div class="card"><h3>Biology</h3><p>Cells, genetics, body systems, ecosystems, and scientific reasoning.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-light" id="program-ela">
+    <div class="container center">
+      <div class="kicker">ELA</div>
+      <h2 class="section-title">English Language Arts</h2>
+      <p class="section-subtitle">
+        Improve reading comprehension, grammar, vocabulary, writing structure, speaking confidence, and school assignment quality.
+      </p>
+
+      <div class="three-grid">
+        <div class="card"><h3>Reading</h3><p>Build comprehension, inference, evidence selection, and vocabulary.</p></div>
+        <div class="card"><h3>Writing</h3><p>Improve sentence clarity, paragraph structure, essays, and creative writing.</p></div>
+        <div class="card"><h3>Grammar</h3><p>Strengthen grammar, punctuation, editing, and proofreading skills.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="program-sat">
+    <div class="container center">
+      <div class="kicker">SAT</div>
+      <h2 class="section-title">SAT Preparation</h2>
+      <p class="section-subtitle">
+        Structured SAT support for Math, Reading, and Writing with practice tests, strategy sessions, and score improvement planning.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-light" id="program-public-speaking">
+    <div class="container center">
+      <div class="kicker">Public Speaking</div>
+      <h2 class="section-title">Public Speaking & Communication</h2>
+      <p class="section-subtitle">
+        Help your child speak confidently, organize thoughts, present clearly, and communicate with stronger expression.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="program-catch-up">
+    <div class="container center">
+      <div class="kicker">Math Catch-Up</div>
+      <h2 class="section-title">Catch Up on Math Gaps</h2>
+      <p class="section-subtitle">
+        A focused support program for students who need help catching up with foundational math skills and current school topics.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-light" id="program-eraya">
+    <div class="container center">
+      <div class="kicker">ERAYA</div>
+      <h2 class="section-title">ERAYA for IBDP Students</h2>
+      <p class="section-subtitle">
+        Personalized support for IBDP learners with academic coaching, subject clarity, and performance-focused mentoring.
+      </p>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="section reviews">
+    <div class="container review-grid">
+      <div>
+        <div class="kicker">Reviews</div>
+        <h2 class="section-title">Here's What Parents Are Saying</h2>
+        <p class="section-subtitle">
+          Families trust Math Sphere because we focus on consistency, communication, and visible academic improvement.
+        </p>
+
+        <div class="rating-card">
+          <div class="rating-row">
+            <div>
+              <div class="rating-number">4.9</div>
+              <div class="stars">★★★★★</div>
+            </div>
+            <div>
+              <strong>Google Reviews</strong>
+              <p>Based on 189 reviews</p>
+            </div>
+          </div>
+
+          <div class="ai-summary">
+            <strong>AI-Generated Summary:</strong>
+            Parents often mention patient tutors, visible confidence improvement, clear communication, and structured learning plans.
+          </div>
+        </div>
+      </div>
+
+      <div class="review-slider">
+        <div class="review-card">
+          <h3>Dina B.</h3>
+          <small>2 weeks ago</small>
+          <div class="stars">★★★★★</div>
+          <p>Math Sphere helped my daughter improve her confidence in math. The tutor was patient and explained every concept clearly.</p>
+          <button class="read-more">Read more</button>
+        </div>
+
+        <div class="review-card">
+          <h3>Yousuf A.</h3>
+          <small>1 month ago</small>
+          <div class="stars">★★★★★</div>
+          <p>The weekly updates are very helpful. We know exactly what our child learned and what needs more practice.</p>
+          <button class="read-more">Read more</button>
+        </div>
+
+        <div class="review-card">
+          <h3>Ashley T.</h3>
+          <small>1 month ago</small>
+          <div class="stars">★★★★★</div>
+          <p>The sessions are structured and engaging. My child enjoys the class and is now more comfortable asking questions.</p>
+          <button class="read-more">Read more</button>
+        </div>
+
+        <div class="review-card">
+          <h3>Minh C.</h3>
+          <small>3 months ago</small>
+          <div class="stars">★★★★★</div>
+          <p>Great support for English writing. The tutor helped my son organize his thoughts and improve paragraph structure.</p>
+          <button class="read-more">Read more</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Success Stories -->
+  <section class="section">
+    <div class="container">
+      <div class="kicker">Success Stories</div>
+      <h2 class="section-title">We're always aiming for good grades</h2>
+
+      <div class="carousel-box">
+        <div class="report-card">
+          <h3 id="storyTitle">From C+ to A- in Math</h3>
+          <div class="success-stat" id="storyStat">+28%</div>
+          <p id="storyText">A structured catch-up plan helped close core gaps before the final term.</p>
+
+          <div class="bar-label"><span>Concept Clarity</span><span>88%</span></div>
+          <div class="bar"><span style="width: 88%"></span></div>
+
+          <div class="bar-label"><span>Homework Accuracy</span><span>76%</span></div>
+          <div class="bar"><span style="width: 76%"></span></div>
+
+          <div class="bar-label"><span>Test Confidence</span><span>93%</span></div>
+          <div class="bar"><span style="width: 93%"></span></div>
+        </div>
+
+        <div>
+          <div class="kicker" id="storyTag">Grade 7 • British Curriculum</div>
+          <div class="quote" id="storyQuote">
+            “Personalized mentoring turned difficult topics into achievable steps.”
+          </div>
+
+          <div class="carousel-controls">
+            <button class="circle-btn" id="prevStory">‹</button>
+            <button class="circle-btn" id="nextStory">›</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tutors -->
+  <section class="section section-light" id="tutors">
+    <div class="container center">
+      <div class="kicker">Our Tutors</div>
+      <h2 class="section-title">Educators Committed to Your Child's Growth</h2>
+      <p class="section-subtitle">
+        Math Sphere mentors are selected for subject expertise, communication skills, and ability to build student confidence.
+      </p>
+
+      <div class="tutor-grid">
+        <div class="tutor-card">
+          <div class="avatar">AK</div>
+          <h3>Aisha Khan</h3>
+          <div class="role">Math Educator</div>
+          <small>10+ Years Experience</small>
+        </div>
+
+        <div class="tutor-card">
+          <div class="avatar">RM</div>
+          <h3>Rahul Menon</h3>
+          <div class="role">Physics Mentor</div>
+          <small>8+ Years Experience</small>
+        </div>
+
+        <div class="tutor-card">
+          <div class="avatar">SW</div>
+          <h3>Sarah Williams</h3>
+          <div class="role">ELA Specialist</div>
+          <small>12+ Years Experience</small>
+        </div>
+
+        <div class="tutor-card">
+          <div class="avatar">NH</div>
+          <h3>Nadia Hassan</h3>
+          <div class="role">Chemistry Educator</div>
+          <small>9+ Years Experience</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="section">
+    <div class="container center">
+      <div class="kicker">Tutor vs Mentor</div>
+      <h2 class="section-title">We Don't Just Match Tutors. We Match Mentors.</h2>
+
+      <div class="comparison">
+        <div class="comparison-row comparison-head">
+          <div class="comparison-cell">Standard Tutor</div>
+          <div class="comparison-cell mentor">Math Sphere Mentor</div>
+        </div>
+
+        <div class="comparison-row">
+          <div class="comparison-cell">Subject help</div>
+          <div class="comparison-cell mentor">Overall growth</div>
+        </div>
+
+        <div class="comparison-row">
+          <div class="comparison-cell">Reactive support</div>
+          <div class="comparison-cell mentor">Proactive planning</div>
+        </div>
+
+        <div class="comparison-row">
+          <div class="comparison-cell">Ends with class</div>
+          <div class="comparison-cell mentor">Long-term trust</div>
+        </div>
+
+        <div class="comparison-row">
+          <div class="comparison-cell">Just grades</div>
+          <div class="comparison-cell mentor">Grades + Skills + Mindset</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lead Form -->
+  <section class="section section-light" id="lead-form">
+    <div class="container lead-grid">
+      <div>
+        <div class="kicker">Book a free trial</div>
+        <h2 class="section-title">Set your child on the journey to academic excellence today</h2>
+        <p class="section-subtitle" id="pricing">
+          Share your child’s grade, curriculum, and subject requirement. Math Sphere will recommend a suitable mentor and learning plan.
+        </p>
+
+        <div class="mini-boxes">
+          <div class="mini-box">
+            <h3>Session Length</h3>
+            <p>55-minute live 1:1 sessions.</p>
+          </div>
+
+          <div class="mini-box">
+            <h3>Pricing</h3>
+            <p>AED 70–100/hr depending on plan and subject.</p>
+          </div>
+        </div>
+      </div>
+
+      <form class="form-card" id="trialForm">
+        <div class="form-grid">
+          <input class="input" type="text" id="parentName" placeholder="Parent's Name" />
+          <input class="input" type="text" id="studentName" placeholder="Student's Name" />
+          <input class="input" type="tel" id="phone" placeholder="Parent's Phone Number (+971...)" />
+          <input class="input" type="email" id="email" placeholder="Email Address" />
+
+          <select class="input" id="grade">
+            <option value="">Grade</option>
+            <option>Grade 1</option>
+            <option>Grade 2</option>
+            <option>Grade 3</option>
+            <option>Grade 4</option>
+            <option>Grade 5</option>
+            <option>Grade 6</option>
+            <option>Grade 7</option>
+            <option>Grade 8</option>
+            <option>Grade 9</option>
+            <option>Grade 10</option>
+            <option>Grade 11</option>
+            <option>Grade 12</option>
+            <option>Grade 13</option>
+          </select>
+
+          <select class="input" id="subject">
+            <option value="">Subject</option>
+            <option>Math</option>
+            <option>Science</option>
+            <option>English</option>
+            <option>Chemistry</option>
+            <option>Physics</option>
+            <option>Biology</option>
+            <option>SAT</option>
+            <option>Public Speaking</option>
+            <option>Coding</option>
+          </select>
+
+          <select class="input full" id="curriculum">
+            <option value="">Curriculum</option>
+            <option>Indian</option>
+            <option>British</option>
+            <option>IB</option>
+            <option>American</option>
+            <option>Cambridge</option>
+            <option>CBSE</option>
+            <option>ICSE</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%; margin-top: 18px;">
+          Submit Free Trial Request
+        </button>
+
+        <div class="form-message" id="formMessage"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="container center">
+      <div class="kicker">FAQ</div>
+      <h2 class="section-title">Frequently asked questions</h2>
+
+      <div class="faq-wrap">
+        <div class="faq-item active">
+          <button class="faq-question">
+            Which curricula does Math Sphere support?
+            <span>−</span>
+          </button>
+          <div class="faq-answer">
+            Math Sphere supports Indian, British, IB, American, Cambridge, CBSE, ICSE, and IGCSE learning pathways.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            How long is each session?
+            <span>+</span>
+          </button>
+          <div class="faq-answer">
+            Each tutoring session is 55 minutes, allowing time for concept teaching, guided practice, doubt-solving, and feedback.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            How are tutors selected?
+            <span>+</span>
+          </button>
+          <div class="faq-answer">
+            Tutors are selected based on subject expertise, teaching demonstrations, communication skills, and student engagement ability.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            What is the pricing?
+            <span>+</span>
+          </button>
+          <div class="faq-answer">
+            Pricing usually ranges between AED 70 and AED 100 per hour depending on the plan, subject, and academic requirement.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            What is the cancellation policy?
+            <span>+</span>
+          </button>
+          <div class="faq-answer">
+            Families can reschedule sessions based on the plan policy. Full cancellation and rescheduling terms are shared before enrollment.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blogs -->
+  <section class="section section-light" id="blogs">
+    <div class="container center">
+      <div class="kicker">Blogs</div>
+      <h2 class="section-title">Learning Resources for Parents</h2>
+      <p class="section-subtitle">
+        Helpful articles from Math Sphere on school performance, tutoring, exams, confidence, and study habits.
+      </p>
+
+      <div class="page-grid">
+        <div class="page-card">
+          <h3>How 1:1 Tutoring Improves Confidence</h3>
+          <p>Understand why personalized support helps students ask questions and learn faster.</p>
+          <a href="#lead-form" class="btn btn-secondary">Read More</a>
+        </div>
+
+        <div class="page-card">
+          <h3>How to Choose the Right Tutor</h3>
+          <p>A practical guide for parents choosing subject support for their child.</p>
+          <a href="#lead-form" class="btn btn-secondary">Read More</a>
+        </div>
+
+        <div class="page-card">
+          <h3>Why Weekly Progress Reports Matter</h3>
+          <p>How parent visibility improves consistency, accountability, and outcomes.</p>
+          <a href="#lead-form" class="btn btn-secondary">Read More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About / Careers / Comparison Pages -->
+  <section class="section">
+    <div class="container center">
+      <div class="kicker">More from Math Sphere</div>
+      <h2 class="section-title">Explore Our Pages</h2>
+
+      <div class="page-grid">
+        <div class="page-card">
+          <h3>About Math Sphere</h3>
+          <p>We help students grow academically with structured 1:1 tutoring, mentoring, and parent communication.</p>
+          <a href="#lead-form" class="btn btn-secondary">Know More</a>
+        </div>
+
+        <div class="page-card">
+          <h3>Careers</h3>
+          <p>Join Math Sphere as a tutor, academic mentor, curriculum expert, or student success specialist.</p>
+          <a href="#lead-form" class="btn btn-secondary">Apply Now</a>
+        </div>
+
+        <div class="page-card">
+          <h3>Competitor Comparisons</h3>
+          <p>Compare Math Sphere with standard tutoring platforms and understand our mentor-first approach.</p>
+          <a href="#lead-form" class="btn btn-secondary">Compare</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chat Panel -->
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-head">
+      <div>
+        <strong>Academic Counsellor</strong>
+        <p style="color:#dbeafe; margin:0;">Typically replies quickly</p>
+      </div>
+      <button class="close-chat" id="closeChat">×</button>
+    </div>
+
+    <div class="chat-body">
+      <div class="chat-bubble">
+        Hey there 👋 Need help choosing the right tutor or subject plan?
+      </div>
+      <a href="#lead-form" class="btn btn-primary" style="width:100%;">Book a free trial</a>
+      <button class="btn btn-secondary" style="width:100%; margin-top:10px;">Continue on WhatsApp</button>
+    </div>
+  </div>
+
+  <button class="chat-widget open-chat">
+    <span class="chat-avatar">AC</span>
+    <span>Hey there 👋 Need help?</span>
+  </button>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="logo">
+            <div class="logo-mark">M</div>
+            <div>
+              Math Sphere
+              <small>1:1 Online Tutoring</small>
+            </div>
+          </div>
+
+          <p style="margin-top:18px;">
+            Personalized 1:1 online tutoring for school success, confidence, and long-term academic growth.
+          </p>
+
+          <p>hello@mathsphere.com</p>
+          <p>+971 4 836 9577</p>
+        </div>
+
+        <div>
+          <h3>Office Addresses</h3>
+          <p>UAE: Dubai Digital Park, Silicon Oasis</p>
+          <p>US: 355 Bryant St, San Francisco</p>
+          <p>India: Royapettah, Chennai</p>
+        </div>
+
+        <div>
+          <h3>Company</h3>
+          <a href="#">About us</a>
+          <a href="#">Careers</a>
+          <a href="#">Contact support</a>
+          <a href="#blogs">Blogs</a>
+          <a href="#tutors">Our Tutors</a>
+        </div>
+
+        <div>
+          <h3>Compare</h3>
+          <a href="#">Math Sphere vs Preply</a>
+          <a href="#">Math Sphere vs Varsity Tutors</a>
+          <a href="#">Math Sphere vs Princeton Review</a>
+          <a href="#">Math Sphere vs Mathnasium</a>
+          <a href="#">Math Sphere vs Kumon</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Math Sphere. All rights reserved.</span>
+        <span>
+          <a href="#">Terms of Service</a>
+          <a href="#">Privacy Policy</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const languageToggle = document.getElementById("languageToggle");
+    const chatPanel = document.getElementById("chatPanel");
+    const closeChat = document.getElementById("closeChat");
+    const openChatButtons = document.querySelectorAll(".open-chat");
+    const trialForm = document.getElementById("trialForm");
+    const formMessage = document.getElementById("formMessage");
+
+    menuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("active");
+    });
+
+    document.querySelectorAll(".mobile-menu a").forEach(link => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("active");
+      });
+    });
+
+    let currentLanguage = "English";
+
+    languageToggle.addEventListener("click", () => {
+      currentLanguage = currentLanguage === "English" ? "Arabic" : "English";
+      languageToggle.textContent = currentLanguage === "English"
+        ? "English / العربية"
+        : "العربية / English";
+    });
+
+    openChatButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        chatPanel.classList.add("active");
+      });
+    });
+
+    closeChat.addEventListener("click", () => {
+      chatPanel.classList.remove("active");
+    });
+
+    // FAQ Accordion
+    const faqItems = document.querySelectorAll(".faq-item");
+
+    faqItems.forEach(item => {
+      const question = item.querySelector(".faq-question");
+      const symbol = question.querySelector("span");
+
+      question.addEventListener("click", () => {
+        faqItems.forEach(other => {
+          if (other !== item) {
+            other.classList.remove("active");
+            other.querySelector(".faq-question span").textContent = "+";
+          }
+        });
+
+        item.classList.toggle("active");
+        symbol.textContent = item.classList.contains("active") ? "−" : "+";
+      });
+    });
+
+    // Success Story Carousel
+    const stories = [
+      {
+        title: "From C+ to A- in Math",
+        stat: "+28%",
+        text: "A structured catch-up plan helped close core gaps before the final term.",
+        tag: "Grade 7 • British Curriculum",
+        quote: "“Personalized mentoring turned difficult topics into achievable steps.”"
+      },
+      {
+        title: "Physics Confidence Boost",
+        stat: "Top 10%",
+        text: "Consistent practice helped the student move from memorizing to understanding.",
+        tag: "Grade 10 • IB Curriculum",
+        quote: "“The student started solving application-based questions with confidence.”"
+      },
+      {
+        title: "English Writing Progress",
+        stat: "2-Level Jump",
+        text: "Focused feedback improved grammar, paragraph structure, and academic vocabulary.",
+        tag: "Grade 6 • American Curriculum",
+        quote: "“Clear writing became easier with weekly feedback and practice.”"
+      }
+    ];
+
+    let activeStory = 0;
+
+    const storyTitle = document.getElementById("storyTitle");
+    const storyStat = document.getElementById("storyStat");
+    const storyText = document.getElementById("storyText");
+    const storyTag = document.getElementById("storyTag");
+    const storyQuote = document.getElementById("storyQuote");
+    const prevStory = document.getElementById("prevStory");
+    const nextStory = document.getElementById("nextStory");
+
+    function renderStory() {
+      const story = stories[activeStory];
+      storyTitle.textContent = story.title;
+      storyStat.textContent = story.stat;
+      storyText.textContent = story.text;
+      storyTag.textContent = story.tag;
+      storyQuote.textContent = story.quote;
+    }
+
+    prevStory.addEventListener("click", () => {
+      activeStory = (activeStory - 1 + stories.length) % stories.length;
+      renderStory();
+    });
+
+    nextStory.addEventListener("click", () => {
+      activeStory = (activeStory + 1) % stories.length;
+      renderStory();
+    });
+
+    setInterval(() => {
+      activeStory = (activeStory + 1) % stories.length;
+      renderStory();
+    }, 5500);
+
+    // Form Validation
+    trialForm.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const parentName = document.getElementById("parentName").value.trim();
+      const studentName = document.getElementById("studentName").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const grade = document.getElementById("grade").value;
+      const subject = document.getElementById("subject").value;
+      const curriculum = document.getElementById("curriculum").value;
+
+      const emailValid = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);
+      const phoneValid = /^\\+?[0-9\\s-]{10,16}$/.test(phone);
+
+      if (!parentName || !studentName || !phone || !email || !grade || !subject || !curriculum) {
+        showMessage("Please complete all fields before submitting.", "error");
+        return;
+      }
+
+      if (!phoneValid) {
+        showMessage("Please enter a valid phone number with country code.", "error");
+        return;
+      }
+
+      if (!emailValid) {
+        showMessage("Please enter a valid email address.", "error");
+        return;
+      }
+
+      showMessage("Thank you! Your free trial request has been received. A Math Sphere academic advisor will contact you shortly.", "success");
+      trialForm.reset();
+    });
+
+    function showMessage(text, type) {
+      formMessage.textContent = text;
+      formMessage.className = "form-message " + type;
+    }
+
+    // Read More Demo
+    document.querySelectorAll(".read-more").forEach(button => {
+      button.addEventListener("click", () => {
+        const card = button.closest(".review-card");
+        const paragraph = card.querySelector("p");
+
+        if (button.textContent === "Read more") {
+          paragraph.textContent += " The parent also appreciated the consistent communication, structured assignments, and mentor-led approach.";
+          button.textContent = "Show less";
+        } else {
+          location.reload();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
